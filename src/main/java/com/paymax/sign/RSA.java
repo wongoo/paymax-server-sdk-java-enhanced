@@ -1,5 +1,7 @@
 package com.paymax.sign;
 
+import com.paymax.exception.PaymaxException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -32,7 +34,7 @@ public class RSA {
      * @param privateKey 私钥
      * @return 返回签名数据
      */
-    public static String sign(String content, String privateKey) {
+    public static String sign(String content, String privateKey) throws PaymaxException {
         try {
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(privateKey));
             KeyFactory keyf = KeyFactory.getInstance("RSA");
@@ -48,16 +50,15 @@ public class RSA {
 
             return Base64.encode(signed);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-
-        return null;
     }
 
     /**
      * 签名验证
      */
-    public static boolean verify(String content, String sign, String public_key) {
+    public static boolean verify(String content, String sign, String public_key)
+            throws PaymaxException {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             byte[] encodedKey = Base64.decode(public_key);
@@ -73,10 +74,8 @@ public class RSA {
             return bverify;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-
-        return false;
     }
 
     /**
@@ -86,8 +85,8 @@ public class RSA {
      * @param pk      公钥
      * @return 返回 解密后的数据
      */
-    protected static byte[] decryptByPublicKey(String content, PublicKey pk) {
-
+    protected static byte[] decryptByPublicKey(String content, PublicKey pk)
+            throws PaymaxException {
         try {
             Cipher ch = Cipher.getInstance(ALGORITHM);
             ch.init(Cipher.DECRYPT_MODE, pk);
@@ -114,10 +113,8 @@ public class RSA {
             return writer.toByteArray();
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-        return null;
 
     }
 
@@ -126,24 +123,22 @@ public class RSA {
      *
      * @return,加密数据，未进行base64进行加密
      */
-    protected static byte[] encryptByPrivateKey(String content, PrivateKey pk) {
-
+    protected static byte[] encryptByPrivateKey(String content, PrivateKey pk)
+            throws PaymaxException {
         try {
             Cipher ch = Cipher.getInstance(ALGORITHM);
             ch.init(Cipher.ENCRYPT_MODE, pk);
             return ch.doFinal(content.getBytes(CHAR_SET));
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("通过私钥加密出错");
+            throw new PaymaxException("通过私钥加密出错," + e.getMessage(), e);
         }
-        return null;
 
     }
 
     /**
      * 解密数据，接收端接收到数据直接解密
      */
-    public static String decrypt(String content, String publicKey) {
+    public static String decrypt(String content, String publicKey) throws PaymaxException {
         System.out.println(log + "：decrypt方法中key=" + publicKey);
         if (null == publicKey || "".equals(publicKey)) {
             System.out.println(log + "：decrypt方法中key=" + publicKey);
@@ -151,14 +146,11 @@ public class RSA {
         }
         PublicKey pk = getPublicKey(publicKey);
         byte[] data = decryptByPublicKey(content, pk);
-        String res = null;
         try {
-            res = new String(data, CHAR_SET);
+            return new String(data, CHAR_SET);
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-        return res;
     }
 
     /**
@@ -166,18 +158,14 @@ public class RSA {
      *
      * @param privateKey 私钥
      */
-    public static String encrypt(String content, String privateKey) {
+    public static String encrypt(String content, String privateKey) throws PaymaxException {
         PrivateKey pk = getPrivateKey(privateKey);
         byte[] data = encryptByPrivateKey(content, pk);
-        String res = null;
         try {
-            res = Base64.encode(data);
+            return Base64.encode(data);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-        return res;
-
     }
 
     /**
@@ -185,7 +173,7 @@ public class RSA {
      *
      * @param privateKey 密钥字符串（经过base64编码的秘钥字节）
      */
-    public static PrivateKey getPrivateKey(String privateKey) {
+    public static PrivateKey getPrivateKey(String privateKey) throws PaymaxException {
         try {
             byte[] keyBytes;
 
@@ -199,9 +187,8 @@ public class RSA {
 
             return privatekey;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-        return null;
     }
 
 
@@ -210,7 +197,7 @@ public class RSA {
      *
      * @param publicKey 密钥字符串（经过base64编码秘钥字节）
      */
-    public static PublicKey getPublicKey(String publicKey) {
+    public static PublicKey getPublicKey(String publicKey) throws PaymaxException {
 
         try {
 
@@ -226,14 +213,11 @@ public class RSA {
 
             return publickey;
         } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
-        return null;
-
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PaymaxException {
         String str = Base64.encode(
                 "{\"amount\":\"1\",\"body\":\"Your Body\",\"subject\":\"Your Subject\",\"channel\":\"alipay_app\",\"client_ip\":\"127.0.0.1\",\"order_no\":\"123456789\",\"appKey\":\"app_49b0f1dd741646d2b277524de2785836\",\"currency\":\"cny\"}"
                         .getBytes());

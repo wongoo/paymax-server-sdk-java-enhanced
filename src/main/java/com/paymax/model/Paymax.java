@@ -7,6 +7,7 @@ import com.paymax.exception.AuthorizationException;
 import com.paymax.exception.InvalidRequestException;
 import com.paymax.exception.InvalidResponseException;
 import com.paymax.exception.PaymaxException;
+import com.paymax.exception.PaymaxFatalException;
 import com.paymax.sign.HttpRequestWrapper;
 import com.paymax.sign.RSA;
 import com.paymax.sign.Request;
@@ -29,13 +30,13 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -64,9 +65,7 @@ public abstract class Paymax extends PaymaxBase {
     private static String RESPONSE_DATA = "data";
     private static int VALID_RESPONSE_TTL = 2 * 60 * 1000;//合法响应时间:2分钟内
 
-
     private static CloseableHttpClient httpsClient = null;
-
 
     static class AnyTrustStrategy implements TrustStrategy {
 
@@ -75,9 +74,7 @@ public abstract class Paymax extends PaymaxBase {
                 throws CertificateException {
             return true;
         }
-
     }
-
 
     static {
         try {
@@ -86,10 +83,10 @@ public abstract class Paymax extends PaymaxBase {
             registryBuilder.register("http", plainSF);
 
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            SSLContext sslContext = SSLContexts.custom().useTLS()
-                    .loadTrustMaterial(trustStore, new AnyTrustStrategy()).build();
-            LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext,
-                    SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            SSLContext sslContext =
+                    SSLContexts.custom().loadTrustMaterial(trustStore, new AnyTrustStrategy())
+                            .build();
+            LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext);
 
             registryBuilder.register("https", sslSF);
 
@@ -102,7 +99,7 @@ public abstract class Paymax extends PaymaxBase {
             httpsClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new PaymaxFatalException(e);
         }
     }
 
@@ -133,7 +130,8 @@ public abstract class Paymax extends PaymaxBase {
     /**
      * 处理返回数据
      */
-    private static <T> T dealWithResult(Map<String, String> result, Class<T> clazz) {
+    private static <T> T dealWithResult(Map<String, String> result, Class<T> clazz)
+            throws PaymaxException {
         int resultCode = Integer.valueOf(result.get(RESPONSE_CODE)).intValue();
         String resultData = result.get(RESPONSE_DATA);
 
@@ -147,12 +145,8 @@ public abstract class Paymax extends PaymaxBase {
             f.setAccessible(true);
             f.set(t, resultCode < 400);
 
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new PaymaxException(e);
         }
         return t;
 

@@ -146,8 +146,7 @@ public class PayExample {
             }
             fileout.flush();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("下载回盘文件失败!原因是:" + e.getMessage());
+            throw new PaymaxException("下载回盘文件失败!原因是:" + e.getMessage(), e);
         } finally {
             try {
                 if (in != null) {
@@ -157,8 +156,7 @@ public class PayExample {
                     fileout.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("关闭数据流时发生异常!错误信息是:" + e.getMessage());
+                throw new PaymaxException("关闭数据流时发生异常!错误信息是:" + e.getMessage(), e);
             }
 
         }

@@ -1,5 +1,7 @@
 package com.paymax.sign;
 
+import com.paymax.exception.PaymaxException;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -22,13 +24,13 @@ public class RSAKeyGenerateUtil {
     public static String PUBLIC_KEY = "PublicKey";
     public static String PRIVATE_KEY = "PrivateKey";
 
-    public static Map<String, String> genKey() {
+    public static Map<String, String> genKey() throws PaymaxException {
 
         KeyPairGenerator kpg = null;
         try {
             kpg = KeyPairGenerator.getInstance(ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new PaymaxException(e);
         }
         kpg.initialize(1024);
         KeyPair kep = kpg.generateKeyPair();

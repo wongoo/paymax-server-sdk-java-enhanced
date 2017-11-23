@@ -6,32 +6,8 @@
 
     <groupId>com.swwx.paymax</groupId>
     <artifactId>paymax-server-sdk-java-enhanced</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
-
-    <distributionManagement>
-        <repository>
-            <id>bintray-wangoo-paymax</id>
-            <name>wangoo-paymax</name>
-            <url>
-                https://api.bintray.com/maven/wangoo/paymax/paymax-server-sdk-java-enhanced/;publish=1
-            </url>
-        </repository>
-    </distributionManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
@@ -68,4 +44,28 @@
             <version>2.6</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-wangoo-paymax</id>
+            <name>wangoo-paymax</name>
+            <url>
+                https://api.bintray.com/maven/wangoo/paymax/paymax-server-sdk-java-enhanced/;publish=1
+            </url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
