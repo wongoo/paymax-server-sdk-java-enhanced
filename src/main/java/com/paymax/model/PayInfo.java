@@ -7,56 +7,44 @@ import java.math.BigDecimal;
 /**
  * Created by wxw on 2016/12/29.
  */
-public class PayInfo extends Paymax  {
+public class PayInfo extends Paymax {
     /**
-     * 批次号
-     * 商户上传批次号
+     * 批次号 商户上传批次号
      */
     @JSONField(name = "batch_no")
     private String batchNo;
 
     /**
-     * 文件id
-     * 每一此批量代付在“代收付”系统中都会有一个唯一文件id
+     * 文件id 每一此批量代付在“代收付”系统中都会有一个唯一文件id
      */
     @JSONField(name = "file_id")
     private String fileId;
 
     /**
-     * 日期
-     * 格式：yyyyMMdd
+     * 日期 格式：yyyyMMdd
      */
     private String date;
 
     /**
-     * 文件处理状态
-     * 商户已提交 APPLYING
-     * 渠道已受理 ACCEPTED
-     * 渠道受理失败 ACCEPT_FAILED
-     * 银行已受理 PROCESSING
-     * 交易成功 SUCCEED
-     * 部分成功 PARTIAL_SUCCEED
-     * 代付失败 FAILED
+     * 文件处理状态 商户已提交 APPLYING 渠道已受理 ACCEPTED 渠道受理失败 ACCEPT_FAILED 银行已受理 PROCESSING 交易成功 SUCCEED 部分成功
+     * PARTIAL_SUCCEED 代付失败 FAILED
      */
     private FileStatus status;
 
     /**
-     * 文件名
-     * 商户上传时的文件名称
+     * 文件名 商户上传时的文件名称
      */
     @JSONField(name = "file_name")
     private String fileName;
 
     /**
-     * 提交时间
-     * 格式为：yyyy-MM-dd HH:mm:ss
+     * 提交时间 格式为：yyyy-MM-dd HH:mm:ss
      */
     @JSONField(name = "commit_date")
     private String commitDate;
 
     /**
-     * 交易类型
-     * CHARGE代收、PAY代付
+     * 交易类型 CHARGE代收、PAY代付
      */
     @JSONField(name = "trade_type")
     private TradeType tradeType;
@@ -68,7 +56,6 @@ public class PayInfo extends Paymax  {
 
     /**
      * 总金额
-     *
      */
     @JSONField(name = "total_amount")
     private BigDecimal totalAmount;
@@ -86,8 +73,7 @@ public class PayInfo extends Paymax  {
     private BigDecimal succeedAmount;
 
     /**
-     * 回盘时间
-     * 格式为：yyyy-MM-dd HH:mm:ss
+     * 回盘时间 格式为：yyyy-MM-dd HH:mm:ss
      */
     @JSONField(name = "return_date")
     private String returnDate;
@@ -101,12 +87,12 @@ public class PayInfo extends Paymax  {
     /**
      * 错误码
      */
-    @JSONField(name="failure_code")
+    @JSONField(name = "failure_code")
     private String failureCode;
     /**
      * 错误信息
      */
-    @JSONField(name="failure_msg")
+    @JSONField(name = "failure_msg")
     private String failureMsg;
     /**
      * 本次请求是否成功 true:成功,false:失败
@@ -121,6 +107,7 @@ public class PayInfo extends Paymax  {
     public void setReqSuccessFlag(Boolean reqSuccessFlag) {
         this.reqSuccessFlag = reqSuccessFlag;
     }
+
     public String getFailureCode() {
         return failureCode;
     }

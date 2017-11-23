@@ -2,13 +2,22 @@ package com.paymax.example;
 
 import com.alibaba.fastjson.JSONObject;
 import com.paymax.config.PaymaxConfig;
-import com.paymax.exception.AuthorizationException;
-import com.paymax.exception.InvalidRequestException;
-import com.paymax.exception.InvalidResponseException;
-import com.paymax.model.*;
+import com.paymax.exception.PaymaxException;
+import com.paymax.model.Pay;
+import com.paymax.model.PayFile;
+import com.paymax.model.PayInfo;
+import com.paymax.model.PayUpload;
+import com.paymax.model.Paymax;
+import com.paymax.model.Trade;
+
 import org.apache.commons.lang.StringUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -30,13 +39,11 @@ public class PayExample {
 
     /**
      * 下载普通回盘文件
-     *
-     * @throws IOException
-     * @throws InvalidResponseException
      */
     private static void downloadPayFile() throws Exception {
         PayFile payFile = Paymax.buildDownloadGetRequest(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_DOWNLOAD + "?batch_no=" + _encode("0000029"));
+                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_DOWNLOAD + "?batch_no=" + _encode(
+                        "0000029"));
 
         write2Local(payFile);
 
@@ -44,24 +51,19 @@ public class PayExample {
 
     /**
      * 下载退票回盘文件
-     *
-     * @throws IOException
-     * @throws InvalidResponseException
      */
     private static void downloadReturnPayFile() throws Exception {
         PayFile payFile = Paymax.buildDownloadGetRequest(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_RETURN_DOWNLOAD + "?date=" + _encode("20170117"));
+                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_RETURN_DOWNLOAD + "?date=" + _encode(
+                        "20170117"));
 
         write2Local(payFile);
     }
 
     /**
      * 批量代付
-     *
-     * @throws IOException
-     * @throws InvalidResponseException
      */
-    private static void pay() throws IOException, InvalidResponseException, InvalidRequestException, AuthorizationException {
+    private static void pay() throws IOException, PaymaxException {
         Pay pay = new Pay();
         pay.setBatchNo(String.valueOf(System.currentTimeMillis()));
         pay.setCount(2);
@@ -95,21 +97,19 @@ public class PayExample {
 
         pay.setDetails(list);
 
-        PayUpload payUpload = Paymax.request(PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY, JSONObject.toJSONString(pay), PayUpload.class);
+        PayUpload payUpload = Paymax.request(PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY,
+                JSONObject.toJSONString(pay), PayUpload.class);
 
         System.out.println(JSONObject.toJSONString(payUpload));
     }
 
     /**
      * 根据批次号查询代付文件信息
-     *
-     * @throws IOException
-     * @throws InvalidResponseException
      */
-    private static void payQuery() throws IOException,
-            InvalidResponseException, InvalidRequestException, AuthorizationException {
+    private static void payQuery() throws IOException, PaymaxException {
         PayInfo payInfo = Paymax.request(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_QUERY + "?batch_no=" + _encode("0000029"), null, PayInfo.class);
+                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_QUERY + "?batch_no=" + _encode(
+                        "0000029"), null, PayInfo.class);
         System.out.println(JSONObject.toJSONString(payInfo));
     }
 
@@ -127,7 +127,8 @@ public class PayExample {
         /**
          * 在用户的根目录下创建 payfile 的文件夹
          */
-        File file = new File(System.getProperty("user.home") + "/payfile/" + fileData.getFileName());
+        File file =
+                new File(System.getProperty("user.home") + "/payfile/" + fileData.getFileName());
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -162,14 +163,13 @@ public class PayExample {
 
         }
 
-        System.out.println("下载回盘文件成功!文件路径是:" + System.getProperty("user.home") + "/payfile/" + fileData.getFileName());
+        System.out.println(
+                "下载回盘文件成功!文件路径是:" + System.getProperty("user.home") + "/payfile/" + fileData
+                        .getFileName());
     }
 
     /**
      * 将get方法的queryString做URLEncoding
-     *
-     * @param param
-     * @return
      */
     private static String _encode(String param) throws UnsupportedEncodingException {
         if (StringUtils.isBlank(param)) {

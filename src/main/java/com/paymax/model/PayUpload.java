@@ -7,27 +7,25 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class PayUpload extends Paymax {
     /**
-     * 批次号
-     * 商户上传的批次号
+     * 批次号 商户上传的批次号
      */
     @JSONField(name = "batch_no")
     private String batchNo;
 
     /**
-     * 文件id
-     * 每一此批量代付在“代收付”系统中都会有一个唯一文件id
+     * 文件id 每一此批量代付在“代收付”系统中都会有一个唯一文件id
      */
     @JSONField(name = "file_id")
     private String fileId;
     /**
      * 错误码
      */
-    @JSONField(name="failure_code")
+    @JSONField(name = "failure_code")
     private String failureCode;
     /**
      * 错误信息
      */
-    @JSONField(name="failure_msg")
+    @JSONField(name = "failure_msg")
     private String failureMsg;
     /**
      * 本次请求是否成功 true:成功,false:失败
@@ -42,6 +40,7 @@ public class PayUpload extends Paymax {
     public void setReqSuccessFlag(Boolean reqSuccessFlag) {
         this.reqSuccessFlag = reqSuccessFlag;
     }
+
     public String getFailureCode() {
         return failureCode;
     }

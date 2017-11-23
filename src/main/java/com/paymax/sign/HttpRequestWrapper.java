@@ -26,11 +26,10 @@ public class HttpRequestWrapper implements Request<HttpRequest> {
         this.originalRequest = originalRequest;
         HttpEntity entity = null;
         if (originalRequest instanceof HttpEntityEnclosingRequest
-                && (entity = ((HttpEntityEnclosingRequest) originalRequest)
-                .getEntity()) != null) {
+                && (entity = ((HttpEntityEnclosingRequest) originalRequest).getEntity()) != null) {
             body = IOUtils.toByteArray(entity.getContent());
-            this.contentType = entity.getContentType() == null ? "" : entity
-                    .getContentType().getValue();
+            this.contentType =
+                    entity.getContentType() == null ? "" : entity.getContentType().getValue();
             this.contentLength = String.valueOf(body.length);
 
             ByteArrayEntity newEntity = new ByteArrayEntity(body);
@@ -49,13 +48,13 @@ public class HttpRequestWrapper implements Request<HttpRequest> {
     }
 
     @Override
-    public String getRequestUriPath(){
+    public String getRequestUriPath() {
         URI uri = this.originalRequest.getURI();
         return StringUtils.isBlank(uri.getPath()) ? "" : uri.getPath();
     }
 
     @Override
-    public String getRequestQueryString(){
+    public String getRequestQueryString() {
         URI uri = this.originalRequest.getURI();
         return StringUtils.isBlank(uri.getRawQuery()) ? "" : uri.getRawQuery();
     }

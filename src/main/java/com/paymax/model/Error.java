@@ -6,9 +6,7 @@ package com.paymax.model;
 public class Error extends PaymaxBase {
 
     /**
-     * 错误发生的行
-     * 示例值: 1-100,200,205
-     * 描述: 代表1到100行和第200行以及第205行
+     * 错误发生的行 示例值: 1-100,200,205 描述: 代表1到100行和第200行以及第205行
      */
     private String line;
 

@@ -3,7 +3,7 @@ package com.paymax.exception;
 /**
  * Created by xiaowei.wang on 2016/4/26.
  */
-public abstract class PaymaxException extends Exception {
+public class PaymaxException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public PaymaxException() {

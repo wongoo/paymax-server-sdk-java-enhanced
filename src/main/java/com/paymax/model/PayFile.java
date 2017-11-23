@@ -5,18 +5,18 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Created by wxw on 2016/12/28.
  */
-public class PayFile extends PaymaxBase  {
+public class PayFile extends PaymaxBase {
     private String fileName;
     private byte[] fileData;
     /**
      * 错误码
      */
-    @JSONField(name="failure_code")
+    @JSONField(name = "failure_code")
     private String failureCode;
     /**
      * 错误信息
      */
-    @JSONField(name="failure_msg")
+    @JSONField(name = "failure_msg")
     private String failureMsg;
     /**
      * 本次请求是否成功 true:成功,false:失败
@@ -47,6 +47,7 @@ public class PayFile extends PaymaxBase  {
     public void setFailureMsg(String failureMsg) {
         this.failureMsg = failureMsg;
     }
+
     public String getFileName() {
         return fileName;
     }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by wxw on 2016/12/27.
  */
-public class Pay extends PaymaxBase  {
+public class Pay extends PaymaxBase {
     /**
      * 批次号
      */

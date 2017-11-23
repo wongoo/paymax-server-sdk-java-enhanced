@@ -1,29 +1,27 @@
 package com.paymax.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+
 import java.math.BigDecimal;
 
 /**
  * Created by wxw on 2016/12/27.
  */
-public class Trade extends PaymaxBase  {
+public class Trade extends PaymaxBase {
     /**
-     * 商户订单号
-     * 商户系统内唯一
+     * 商户订单号 商户系统内唯一
      */
     @JSONField(name = "order_no")
     private String merchantOrderNo;
 
     /**
-     * 收款人银行代码
-     * 详见附件“代收付相关码表.xls”
+     * 收款人银行代码 详见附件“代收付相关码表.xls”
      */
     @JSONField(name = "bank_code")
     private String bankCode;
 
     /**
-     * 收款人开户行所在省
-     * 详见附件“代收付相关码表.xls”
+     * 收款人开户行所在省 详见附件“代收付相关码表.xls”
      */
     @JSONField(name = "bank_account_province")
     private String bankAccountProvince;
@@ -35,15 +33,13 @@ public class Trade extends PaymaxBase  {
     private String bankBranchName;
 
     /**
-     * 收款人开户行联行行号
-     * 详见附件“代收付相关码表.xls”
+     * 收款人开户行联行行号 详见附件“代收付相关码表.xls”
      */
     @JSONField(name = "bank_branch_no")
     private String bankBranchNo;
 
     /**
-     * 收款人开户户名
-     * 对公为姓名，对私为企业名称
+     * 收款人开户户名 对公为姓名，对私为企业名称
      */
     @JSONField(name = "bank_account_name")
     private String bankAccountName;
@@ -55,22 +51,19 @@ public class Trade extends PaymaxBase  {
     private String bankAccountNo;
 
     /**
-     * 交易金额
-     * 精确到小数点后两位，单位：元，
+     * 交易金额 精确到小数点后两位，单位：元，
      */
     @JSONField(name = "amount")
     private BigDecimal amount;
 
     /**
-     * 账户类型
-     * 0-对公；1-对私借记卡；2-对私贷记卡；3-对私存折
+     * 账户类型 0-对公；1-对私借记卡；2-对私贷记卡；3-对私存折
      */
     @JSONField(name = "account_type")
     private String accountType;
 
     /**
-     * 收款人证件类型
-     * 01-身份证…
+     * 收款人证件类型 01-身份证…
      */
     @JSONField(name = "id_card_type")
     private String idCardType;
