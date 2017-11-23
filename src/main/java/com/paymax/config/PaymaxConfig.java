@@ -11,6 +11,9 @@ public class PaymaxConfig {
     public static final String PAY = "v1/pay";
     public static final String PAY_DOWNLOAD = "v1/pay/download";
     public static final String PAY_RETURN_DOWNLOAD = "v1/pay/return/download";
+    public static final String CREATE_CHARGE = "v1/charges";
+    //请求下载对账单
+    public static final String STATEMENT_DOWNLOAD = "v1/statement/download";
 
 
     //编码集

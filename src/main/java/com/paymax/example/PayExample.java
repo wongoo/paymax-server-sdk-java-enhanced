@@ -63,7 +63,7 @@ public class PayExample {
     /**
      * 批量代付
      */
-    private static void pay() throws IOException, PaymaxException {
+    private static void pay() throws PaymaxException {
         Pay pay = new Pay();
         pay.setBatchNo(String.valueOf(System.currentTimeMillis()));
         pay.setCount(2);
@@ -106,7 +106,7 @@ public class PayExample {
     /**
      * 根据批次号查询代付文件信息
      */
-    private static void payQuery() throws IOException, PaymaxException {
+    private static void payQuery() throws PaymaxException, UnsupportedEncodingException {
         PayInfo payInfo = Paymax.request(
                 PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_QUERY + "?batch_no=" + _encode(
                         "0000029"), null, PayInfo.class);
