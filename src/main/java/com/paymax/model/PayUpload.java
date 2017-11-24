@@ -1,6 +1,9 @@
 package com.paymax.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.paymax.config.PaymaxConfig;
+import com.paymax.exception.PaymaxException;
 
 /**
  * Created by wxw on 2016/12/29.
@@ -73,4 +76,11 @@ public class PayUpload extends Paymax {
         this.fileId = fileId;
     }
 
+    /**
+     * 创建代付请求
+     */
+    public static PayUpload create(Pay pay) throws PaymaxException {
+        return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY, JSONObject.toJSONString(pay),
+                PayUpload.class);
+    }
 }

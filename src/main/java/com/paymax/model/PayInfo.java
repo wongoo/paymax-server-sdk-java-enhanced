@@ -1,6 +1,8 @@
 package com.paymax.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.paymax.config.PaymaxConfig;
+import com.paymax.exception.PaymaxException;
 
 import java.math.BigDecimal;
 
@@ -226,5 +228,10 @@ public class PayInfo extends Paymax {
 
     public void setFailReason(String failReason) {
         this.failReason = failReason;
+    }
+
+    public static PayInfo retrive(String batchNo) throws PaymaxException {
+        return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_QUERY + "?batch_no=" + batchNo,
+                null, PayInfo.class);
     }
 }

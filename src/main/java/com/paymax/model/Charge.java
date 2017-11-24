@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.paymax.config.PaymaxConfig;
 import com.paymax.exception.PaymaxException;
+import com.paymax.model.req.ChargeReq;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -303,6 +304,14 @@ public class Charge extends Paymax {
     public static Charge create(Map<String, Object> params) throws PaymaxException {
         return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE,
                 JSONObject.toJSONString(params), Charge.class);
+    }
+
+    /**
+     * 创建充值订单
+     */
+    public static Charge create(ChargeReq req) throws PaymaxException {
+        return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE,
+                JSONObject.toJSONString(req), Charge.class);
     }
 
     /**

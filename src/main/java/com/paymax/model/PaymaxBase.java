@@ -1,8 +1,9 @@
 package com.paymax.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
@@ -24,6 +25,6 @@ public class PaymaxBase implements Serializable {
     }
 
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return JSONObject.toJSONString(this);
     }
 }

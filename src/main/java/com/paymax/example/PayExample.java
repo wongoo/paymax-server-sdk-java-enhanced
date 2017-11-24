@@ -1,25 +1,17 @@
 package com.paymax.example;
 
-import com.alibaba.fastjson.JSONObject;
-import com.paymax.config.PaymaxConfig;
 import com.paymax.exception.PaymaxException;
 import com.paymax.model.Pay;
 import com.paymax.model.PayFile;
 import com.paymax.model.PayInfo;
 import com.paymax.model.PayUpload;
-import com.paymax.model.Paymax;
 import com.paymax.model.Trade;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,21 +22,21 @@ import java.util.UUID;
  * Created by wxw on 2016/12/27.
  */
 public class PayExample {
+
+    private static String batchNo = "1000000";
+
     public static void main(String[] args) throws Exception {
         pay();
+        downloadReturnPayFile();
         payQuery();
         downloadPayFile();
-        downloadReturnPayFile();
     }
 
     /**
      * 下载普通回盘文件
      */
     private static void downloadPayFile() throws Exception {
-        PayFile payFile = Paymax.buildDownloadGetRequest(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_DOWNLOAD + "?batch_no=" + _encode(
-                        "0000029"));
-
+        PayFile payFile = PayFile.retrievePayFile(batchNo);
         write2Local(payFile);
 
     }
@@ -53,10 +45,7 @@ public class PayExample {
      * 下载退票回盘文件
      */
     private static void downloadReturnPayFile() throws Exception {
-        PayFile payFile = Paymax.buildDownloadGetRequest(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_RETURN_DOWNLOAD + "?date=" + _encode(
-                        "20170117"));
-
+        PayFile payFile = PayFile.retrieveReturnFile("20171030");
         write2Local(payFile);
     }
 
@@ -97,83 +86,53 @@ public class PayExample {
 
         pay.setDetails(list);
 
-        PayUpload payUpload = Paymax.request(PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY,
-                JSONObject.toJSONString(pay), PayUpload.class);
+        PayUpload payUpload = PayUpload.create(pay);
 
-        System.out.println(JSONObject.toJSONString(payUpload));
+        System.out.println(payUpload);
     }
 
     /**
      * 根据批次号查询代付文件信息
      */
-    private static void payQuery() throws PaymaxException, UnsupportedEncodingException {
-        PayInfo payInfo = Paymax.request(
-                PaymaxConfig.API_BASE_URL + PaymaxConfig.PAY_QUERY + "?batch_no=" + _encode(
-                        "0000029"), null, PayInfo.class);
-        System.out.println(JSONObject.toJSONString(payInfo));
+    private static void payQuery() throws PaymaxException {
+        PayInfo payInfo = PayInfo.retrive(batchNo);
+        System.out.println(payInfo);
     }
 
-    private static void write2Local(PayFile fileData) throws Exception {
-        if (fileData == null) {
+    private static void write2Local(PayFile payFile) throws Exception {
+        System.out.println(payFile);
+        if (payFile == null || payFile.getReqSuccessFlag() == null || !payFile
+                .getReqSuccessFlag()) {
             System.out.println("下载回盘文件失败。");
-        }
-
-        if (fileData.getFileData() == null) {
-            System.out.println(JSONObject.toJSONString(fileData));
-            return;
-        }
-
-        InputStream in = new ByteArrayInputStream(fileData.getFileData());
-        /**
-         * 在用户的根目录下创建 payfile 的文件夹
-         */
-        File file =
-                new File(System.getProperty("user.home") + "/payfile/" + fileData.getFileName());
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
-
-        FileOutputStream fileout = null;
-        try {
-            fileout = new FileOutputStream(file);
-            /**
-             * 根据实际运行效果 设置缓冲区大小
-             */
-            byte[] buffer = new byte[1024];
-            int ch = 0;
-            while ((ch = in.read(buffer)) != -1) {
-                fileout.write(buffer, 0, ch);
+        } else {
+            String path = System.getProperty("user.home") + "/payfile/" + payFile.getFileName();
+            File file = new File(path);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
             }
-            fileout.flush();
+
+            FileOutputStream os = new FileOutputStream(file);
+            writeToOutputStream(payFile.getFileData(), os);
+            System.out.println("下载回盘文件成功!文件路径是:" + path);
+        }
+    }
+
+    public static void writeToOutputStream(byte[] fileData, OutputStream os)
+            throws PaymaxException {
+        if (fileData == null) {
+            throw new PaymaxException("no file data!");
+        }
+        try {
+            os.write(fileData);
+            os.flush();
         } catch (Exception e) {
-            throw new PaymaxException("下载回盘文件失败!原因是:" + e.getMessage(), e);
+            throw new PaymaxException(e.getMessage(), e);
         } finally {
             try {
-                if (in != null) {
-                    in.close();
-                }
-                if (fileout != null) {
-                    fileout.close();
-                }
+                os.close();
             } catch (IOException e) {
-                throw new PaymaxException("关闭数据流时发生异常!错误信息是:" + e.getMessage(), e);
+                System.out.println(e.getMessage());
             }
-
         }
-
-        System.out.println(
-                "下载回盘文件成功!文件路径是:" + System.getProperty("user.home") + "/payfile/" + fileData
-                        .getFileName());
     }
-
-    /**
-     * 将get方法的queryString做URLEncoding
-     */
-    private static String _encode(String param) throws UnsupportedEncodingException {
-        if (StringUtils.isBlank(param)) {
-            return null;
-        }
-        return URLEncoder.encode(param, PaymaxConfig.CHARSET);
-    }
-
 }

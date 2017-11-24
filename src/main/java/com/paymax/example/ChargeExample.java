@@ -1,8 +1,11 @@
 package com.paymax.example;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.paymax.exception.PaymaxException;
+import com.paymax.model.Channel;
 import com.paymax.model.Charge;
+import com.paymax.model.req.ChargeReq;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +19,7 @@ public class ChargeExample {
     public static void main(String[] args) throws PaymaxException {
         ChargeExample ce = new ChargeExample();
         ce.charge();
+        ce.chargeReq();
         ce.retrieve();
     }
 
@@ -39,7 +43,33 @@ public class ChargeExample {
         extra.put("return_url", "http://132.123.221.22/333/kad");
         chargeMap.put("extra", extra);
 
+        System.out.println("-------> charge map:" + JSONObject.toJSONString(chargeMap));
         Charge charge = Charge.create(chargeMap);
+        printResult(charge);
+    }
+
+    /**
+     * 创建充值订单
+     */
+    public void chargeReq() throws PaymaxException {
+        ChargeReq chargeReq = new ChargeReq();
+        chargeReq.setAmount(1.0);
+        chargeReq.setSubject("Hello World");
+        chargeReq.setBody("charge req");
+        chargeReq.setOrderNo(UUID.randomUUID().toString());
+        chargeReq.setChannel(Channel.alipay_app);
+        chargeReq.setClientIp("127.0.0.1");
+        chargeReq.setApp("app_7hqF2S6GYXET457i");
+        chargeReq.setCurrency("CNY");
+        chargeReq.setDescription("我是中文");
+        //请根据渠道要求确定是否需要传递extra字段
+        Map<String, Object> extra = new HashMap<String, Object>();
+        extra.put("user_id", "中文测试");
+        extra.put("return_url", "http://132.123.221.22/333/kad");
+        chargeReq.setExtra(extra);
+
+        System.out.println("-------> charge request:" + JSONObject.toJSONString(chargeReq));
+        Charge charge = Charge.create(chargeReq);
         printResult(charge);
     }
 
@@ -63,6 +93,7 @@ public class ChargeExample {
      */
     public void retrieve() throws PaymaxException {
         Charge charge = Charge.retrieve("ch_6f97ac4f57bf182cfe140f34");
+        System.out.println("-------> retrieve charge:");
         printResult(charge);
     }
 }
