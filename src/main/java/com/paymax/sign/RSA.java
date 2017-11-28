@@ -70,9 +70,7 @@ public class RSA {
             signature.initVerify(pubKey);
             signature.update(content.getBytes(CHAR_SET));
 
-            boolean bverify = signature.verify(Base64.decode(sign));
-            return bverify;
-
+            return signature.verify(Base64.decode(sign));
         } catch (Exception e) {
             throw new PaymaxException(e);
         }

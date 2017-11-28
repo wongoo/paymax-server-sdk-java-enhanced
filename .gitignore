@@ -1,2 +1,6 @@
 *.iml
 target
+
+# customer test config
+paymaxtest.properties
+src/test/resources/paymaxtest.properties

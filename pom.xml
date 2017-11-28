@@ -6,7 +6,7 @@
 
     <groupId>com.swwx.paymax</groupId>
     <artifactId>paymax-server-sdk-java-enhanced</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <dependencies>

@@ -1,0 +1,38 @@
+{
+    "data": {
+        "amount": 7,
+        "amount_refunded": 0,
+        "amount_settle": 0,
+        "body": "    ",
+        "client_ip": "120.197.202.48",
+        "credential": {
+            "wechat_wap": {
+                "jsApiParams": "{\"appId\":\"wxbtest9e022e2d07\",\"timeStamp\":\"1478361807\",\"signType\":\"MD5\",\"package\":\"prepay_id=test211060003265e6f4f86970458446dd081\",\"nonceStr\":\"06ZSHzTTeswakmu4\",\"paySign\":\"BB4706E3F97174AAC1341F25dssw88DA16\"}"
+            }
+        },
+        "currency": "CNY",
+        "description": "        ",
+        "extra": {
+            "terminal_id": "9223131",
+            "open_id": "oOOL0jdyiLwslASo7UmSwrtOCW4k",
+            "merchant_id": "8221023420011716"
+        },
+        "id": "ch_5d0eca3b8f707ed425122e56",
+        "livemode": false,
+        "metadata": {
+            "callbackUrl": "http://www.demo.com"
+        },
+        "order_no": "ch_828d6ef97f3c45a3acd41a59",
+        "refunds": [
+        ],
+        "status": "SUCCEED",
+        "subject": "      ",
+        "time_created": 1478361807000,
+        "time_expire": 1478362046272,
+        "time_paid": 1478361806000,
+        "transaction_no": "4004512001201611068876533536"
+    },
+    "notifyNo": "evt_7fb2378f457ewerwa9afe17a942ae389e",
+    "timeCreated": 1478361840304,
+    "type": "CHARGE"
+}

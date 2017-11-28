@@ -1,0 +1,22 @@
+{
+    "data": {
+        "amount": 0.01,
+        "charge": "ch_6abba29e41edddd8b062dab",
+        "description": "      ",
+        "extra": {
+            "refundUrl": "http://www.demo.com/gateway.do?sign=251af6477bxxxxxxx"
+        },
+        "id": "re_06cfeewewe4dc14de10fe",
+        "metadata": {
+            "use_id": "12345678"
+        },
+        "order_no": "06cf59c008b004dc14de10fe",
+        "status": "SUCCEED",
+        "time_created": 1478518692000,
+        "time_succeed": 1478518705000,
+        "transaction_no": "2016110721001004480236849549"
+    },
+    "notifyNo": "evt_eff98bb453f0429b9b8fd5adfasdfc7c9",
+    "timeCreated": 1478518708532,
+    "type": "REFUND"
+}

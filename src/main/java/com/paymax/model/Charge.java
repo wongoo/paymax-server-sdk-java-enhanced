@@ -3,6 +3,7 @@ package com.paymax.model;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.paymax.config.PaymaxConfig;
+import com.paymax.config.SignConfig;
 import com.paymax.exception.PaymaxException;
 import com.paymax.model.req.ChargeReq;
 
@@ -302,6 +303,9 @@ public class Charge extends Paymax {
      * 创建充值订单
      */
     public static Charge create(Map<String, Object> params) throws PaymaxException {
+        if (params.get("app") == null) {
+            params.put("app", SignConfig.getApp());
+        }
         return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE,
                 JSONObject.toJSONString(params), Charge.class);
     }
@@ -310,6 +314,9 @@ public class Charge extends Paymax {
      * 创建充值订单
      */
     public static Charge create(ChargeReq req) throws PaymaxException {
+        if (req.getApp() == null) {
+            req.setApp(SignConfig.getApp());
+        }
         return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE,
                 JSONObject.toJSONString(req), Charge.class);
     }
