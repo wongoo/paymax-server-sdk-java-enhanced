@@ -15,6 +15,7 @@ public class PaymaxConfig {
     //请求下载对账单
     public static final String STATEMENT_DOWNLOAD = "v1/statement/download";
 
+    public static final String CHARGE_REAL_TIME = "v1/real_time/deduct";
 
     //编码集
     public static final String CHARSET = "UTF-8";

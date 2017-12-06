@@ -67,6 +67,7 @@ public abstract class Paymax extends PaymaxBase {
 
     private static CloseableHttpClient httpsClient = null;
 
+
     static class AnyTrustStrategy implements TrustStrategy {
 
         @Override
@@ -75,6 +76,7 @@ public abstract class Paymax extends PaymaxBase {
             return true;
         }
     }
+
 
     static {
         try {
@@ -140,11 +142,14 @@ public abstract class Paymax extends PaymaxBase {
             if (t == null) {
                 t = clazz.newInstance();
             }
-
-            Field f = clazz.getDeclaredField(REQUEST_SUCCESS_FLAG);
-            f.setAccessible(true);
-            f.set(t, resultCode < 400);
-
+            if (!String.class.equals(clazz)) {
+                try {
+                    Field f = clazz.getDeclaredField(REQUEST_SUCCESS_FLAG);
+                    f.setAccessible(true);
+                    f.set(t, resultCode < 400);
+                } catch (NoSuchFieldException nfe) {
+                }
+            }
         } catch (Exception e) {
             throw new PaymaxException(e);
         }
