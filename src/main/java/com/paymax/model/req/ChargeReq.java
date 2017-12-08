@@ -3,6 +3,7 @@ package com.paymax.model.req;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.paymax.model.Channel;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ public class ChargeReq {
     @JSONField(name = "order_no")
     private String orderNo;
 
-    private double amount;
+    private BigDecimal amount;
 
     private String subject;
 
@@ -51,11 +52,11 @@ public class ChargeReq {
         this.orderNo = orderNo;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

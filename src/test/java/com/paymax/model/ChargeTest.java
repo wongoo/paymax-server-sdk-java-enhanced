@@ -8,6 +8,7 @@ import com.paymax.model.req.ChargeReq;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class ChargeTest extends PaymaxTest {
     @Test
     public void testCharge() throws PaymaxException {
         ChargeReq chargeReq = new ChargeReq();
-        chargeReq.setAmount(1.0);
+        chargeReq.setAmount(new BigDecimal(1.0));
         chargeReq.setSubject("Hello World");
         chargeReq.setBody("charge req");
         chargeReq.setOrderNo(UUID.randomUUID().toString());
