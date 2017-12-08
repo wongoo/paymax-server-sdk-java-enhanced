@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.paymax.config.PaymaxConfig;
 import com.paymax.exception.PaymaxException;
+import com.paymax.model.req.RefundReq;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -166,6 +167,14 @@ public class Refund extends Paymax {
             throws PaymaxException {
         return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE + "/" + chargeId
                 + "/refunds", JSONObject.toJSONString(params), Refund.class);
+    }
+
+    /**
+     * 创建退款订单
+     */
+    public static Refund create(String chargeId, RefundReq req) throws PaymaxException {
+        return request(PaymaxConfig.API_BASE_URL + PaymaxConfig.CREATE_CHARGE + "/" + chargeId
+                + "/refunds", JSONObject.toJSONString(req), Refund.class);
     }
 
     /**
