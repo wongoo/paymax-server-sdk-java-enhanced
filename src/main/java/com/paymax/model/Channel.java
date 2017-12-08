@@ -1,5 +1,8 @@
 package com.paymax.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author wangoo
  * @since 2017-11-24 09:34
@@ -26,6 +29,21 @@ public enum Channel {
 
     lakala_h5("拉卡拉H5支付");
 
+    private static Map<String, Channel> channelMap =
+            new HashMap<String, Channel>(Channel.values().length);
+
+    static {
+        Channel[] arr = Channel.values();
+        for (int i = 0; i < arr.length; i++) {
+            Channel c = arr[i];
+            channelMap.put(c.name(), c);
+        }
+    }
+
+    public static Channel parse(String name) {
+        return channelMap.get(name);
+    }
+
     Channel(String desc) {
         this.desc = desc;
     }
@@ -35,4 +53,5 @@ public enum Channel {
     public String getDesc() {
         return desc;
     }
+
 }
