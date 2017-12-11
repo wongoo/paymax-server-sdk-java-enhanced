@@ -2,6 +2,7 @@ package com.paymax.model.req;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.paymax.model.Channel;
+import com.paymax.model.PaymaxBase;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author wangoo
  * @since 2017-11-24 09:06
  */
-public class ChargeReq {
+public class ChargeReq extends PaymaxBase{
 
     //商户订单号，在商户系统内唯一，8-20位数字或字母，不允许特殊字符
     @JSONField(name = "order_no")

@@ -1,7 +1,6 @@
 package com.paymax.model;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.paymax.PaymaxTest;
 import com.paymax.exception.PaymaxException;
 import com.paymax.model.req.ChargeReq;
@@ -35,7 +34,7 @@ public class ChargeTest extends PaymaxTest {
         extra.put("open_id", "oYbmXv2Q-bifqiKaIE-wPOYO9L7M");
         chargeReq.setExtra(extra);
 
-        System.out.println("-------> charge request:" + JSONObject.toJSONString(chargeReq));
+        System.out.println("-------> charge request:" + chargeReq);
         Charge charge = Charge.create(chargeReq);
         printResult(charge);
     }

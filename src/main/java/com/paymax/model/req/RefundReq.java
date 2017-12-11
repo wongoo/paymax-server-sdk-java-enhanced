@@ -1,5 +1,7 @@
 package com.paymax.model.req;
 
+import com.paymax.model.PaymaxBase;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -7,7 +9,7 @@ import java.util.Map;
  * @author wangoo
  * @since 2017-12-07 14:53
  */
-public class RefundReq {
+public class RefundReq extends PaymaxBase {
 
     private BigDecimal amount;
 

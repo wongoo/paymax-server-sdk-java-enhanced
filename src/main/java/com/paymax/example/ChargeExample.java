@@ -1,7 +1,6 @@
 package com.paymax.example;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.paymax.exception.PaymaxException;
 import com.paymax.model.Channel;
 import com.paymax.model.Charge;
@@ -44,7 +43,7 @@ public class ChargeExample {
         extra.put("return_url", "http://132.123.221.22/333/kad");
         chargeMap.put("extra", extra);
 
-        System.out.println("-------> charge map:" + JSONObject.toJSONString(chargeMap));
+        System.out.println("-------> charge map:" + chargeMap);
         Charge charge = Charge.create(chargeMap);
         printResult(charge);
     }
@@ -69,7 +68,7 @@ public class ChargeExample {
         extra.put("return_url", "http://132.123.221.22/333/kad");
         chargeReq.setExtra(extra);
 
-        System.out.println("-------> charge request:" + JSONObject.toJSONString(chargeReq));
+        System.out.println("-------> charge request:" + chargeReq);
         Charge charge = Charge.create(chargeReq);
         printResult(charge);
     }

@@ -31,7 +31,7 @@ public class RefundExample {
         extra.put("extra_key2", "extra_value2");
         extra.put("extra_key1", "extra_value1");
         refundMap.put("extra", extra);
-        System.out.println("refund req:" + JSONObject.toJSONString(refundMap));
+        System.out.println("refund req:" + refundMap);
         Refund refund = Refund.create("ch_fee33a8fcbdb6a976d16cd10", refundMap);
         printResult(refund);
     }
