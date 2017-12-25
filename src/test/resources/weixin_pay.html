@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <title>Paymax demo</title>
+
+    <!--Step 1. 嵌入Paymax JS SDK -->
+    <!-- <script type='text/javascript' src='http://dev.paymax.cc/merchant-api/js/config?config=app_49b0f1dd741646d2b277524de2785836'></script> -->
+    <script type='text/javascript'
+            src='https://www.paymax.cc/merchant-api/js/config?config=app_7hqF2S6GYXET457i'></script>
+
+</head>
+<body>
+<button id="charge">Paymax 体验支付</button>
+</body>
+
+<script type="text/javascript">
+function onBridgeReady(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+            "appId":"wx2421b1c4370ec43b",
+            "timeStamp":" 1395712654",
+            "nonceStr":"e61463f8efa94090b1f366cccfbbb444",
+            "package":"prepay_id=u802345jgfjsdfgsdg888",
+            "signType":"MD5",
+            "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89"
+        },
+        function(res){
+            alert(res);
+            if(res.err_msg == "get_brand_wcpay_request ok" ) {
+                //alert("ok");
+            }
+        }
+    );
+}
+
+if (typeof WeixinJSBridge == "undefined"){
+    if( document.addEventListener ){
+        document.addEventListener('WeixinJSBridgeReady', onBridgeReady,false);
+    }else if (document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+    }
+}else{
+    onBridgeReady();
+}
+
+</script>
+</html>

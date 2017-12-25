@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.paymax.config.SignConfig;
 import com.paymax.exception.InvalidResponseException;
 import com.paymax.exception.PaymaxException;
-import com.paymax.model.Charge;
-import com.paymax.model.Refund;
 import com.paymax.sign.RSA;
 
 /**
@@ -60,13 +58,7 @@ public class PaymaxHookEvent {
         if (data == null) {
             throw new PaymaxException("event data is null");
         }
-        if (PaymaxEventType.CHARGE.equals(type)) {
-            return JSONObject.parseObject(data, Charge.class);
-        } else if (PaymaxEventType.REFUND.equals(type)) {
-            return JSONObject.parseObject(data, Refund.class);
-        } else {
-            throw new PaymaxException("unsupported event type " + type);
-        }
+        return JSONObject.parseObject(data, type.getObjectType());
     }
 
     public static PaymaxHookEvent parseEvent(String eventContent) {
