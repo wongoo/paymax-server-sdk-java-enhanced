@@ -55,6 +55,9 @@ public class PaymaxHookEvent {
     }
 
     public static Object parseData(PaymaxEventType type, String data) throws PaymaxException {
+        if (type == null) {
+            throw new PaymaxException("event type is null");
+        }
         if (data == null) {
             throw new PaymaxException("event data is null");
         }
