@@ -6,7 +6,7 @@ add maven dependency:
 <dependency>
     <groupId>com.swwx.paymax</groupId>
     <artifactId>paymax-server-sdk-java-enhanced</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 </dependency>
 ```
 
