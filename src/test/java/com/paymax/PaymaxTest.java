@@ -29,13 +29,27 @@ public class PaymaxTest {
             } else {
                 Properties properties = new Properties();
                 properties.load(stream);
+                String app = properties.getProperty("app");
+                String secretKey = properties.getProperty("secret_key");
+                String privateKey = properties.getProperty("private_key");
+                String paymaxPublicKey = properties.getProperty("paymax_public_key");
 
-                SignConfig.setApp(properties.getProperty("app"));
-                SignConfig.setSecretKey(properties.getProperty("secret_key"));
-                SignConfig.setPrivateKey(properties.getProperty("private_key"));
-
-                System.out.println("set app:" + SignConfig.getApp());
-                System.out.println("set secret key:" + SignConfig.getSecretKey());
+                if (app != null) {
+                    SignConfig.setApp(app);
+                    System.out.println("set app:" + SignConfig.getApp());
+                }
+                if (secretKey != null) {
+                    SignConfig.setSecretKey(secretKey);
+                    System.out.println("set secret key:" + SignConfig.getSecretKey());
+                }
+                if (privateKey != null) {
+                    SignConfig.setPrivateKey(privateKey);
+                    System.out.println("set private key:" + SignConfig.getPrivateKey());
+                }
+                if (paymaxPublicKey != null) {
+                    SignConfig.setPaymaxPublicKey(paymaxPublicKey);
+                    System.out.println("set paymax public key:" + SignConfig.getPaymaxPublicKey());
+                }
 
             }
         } catch (Exception e) {

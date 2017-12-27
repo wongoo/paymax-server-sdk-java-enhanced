@@ -182,6 +182,27 @@ public abstract class Paymax extends PaymaxBase {
         }
     }
 
+    protected static void verifyResponseData(String toVerifyData, String sign, String secretKey,
+            String timestamp) throws PaymaxException {
+        if (!RSA.verify(toVerifyData, sign, SignConfig.getPaymaxPublicKey())) {
+            throw new InvalidResponseException(
+                    "Invalid Response[Response Data And Sign Verify Failure]," //
+                            + " Please check whether the paymax public key is correct." //
+                            + " Verify data:\n" + toVerifyData);
+        }
+
+        if (!SignConfig.getSecretKey().equals(secretKey)) {
+            throw new InvalidResponseException("Invalid Response[Secret Key Is Invalid]," //
+                    + " Response secret key is " + secretKey);
+        }
+
+        if (Long.valueOf(timestamp) + VALID_RESPONSE_TTL < System.currentTimeMillis()) {
+            throw new InvalidResponseException("Invalid Response[Response Time Is Invalid]," //
+                    + " Response timestamp is " + timestamp //
+                    + ", over response ttl " + VALID_RESPONSE_TTL);
+        }
+    }
+
     /**
      * 对返回结果进行验签。 验签成功:返回数据 验签失败:抛出异常
      */
@@ -222,23 +243,8 @@ public abstract class Paymax extends PaymaxBase {
                             response.getFirstHeader(PaymaxConfig.SIGN).getValue() :
                             "";
 
-                    boolean flag = RSA.verify(toVerifyData, sign, SignConfig.getPaymaxPublicKey());
-                    if (!flag) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Response Data And Sign Verify Failure.]");
-                    }
-
-                    if (!SignConfig.getSecretKey().equals(secretKey)) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Secret Key Is Invalid.]");
-                    }
-
-                    if (Long.valueOf(timestamp) + VALID_RESPONSE_TTL < System.currentTimeMillis()) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Response Time Is Invalid.]");
-                    }
+                    verifyResponseData(toVerifyData, sign, secretKey, timestamp);
                 }
-
 
                 result = new HashMap<String, String>();
 
@@ -340,21 +346,8 @@ public abstract class Paymax extends PaymaxBase {
                             response.getFirstHeader(PaymaxConfig.SIGN).getValue() :
                             "";
 
-                    boolean flag = RSA.verify(toVerifyData, sign, SignConfig.getPaymaxPublicKey());
-                    if (!flag) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Response Data And Sign Verify Failure.]");
-                    }
+                    verifyResponseData(toVerifyData, sign, secretKey, timestamp);
 
-                    if (!SignConfig.getSecretKey().equals(secretKey)) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Secret Key Is Invalid.]");
-                    }
-
-                    if (Long.valueOf(timestamp) + VALID_RESPONSE_TTL < System.currentTimeMillis()) {
-                        throw new InvalidResponseException(
-                                "Invalid Response.[Response Time Is Invalid.]");
-                    }
                     payFile.setFileData(resData);
                     payFile.setFileName(getFileName(response));
                     payFile.setReqSuccessFlag(true);
