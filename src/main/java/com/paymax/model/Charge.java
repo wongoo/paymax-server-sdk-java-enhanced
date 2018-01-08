@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by xiaowei.wang on 2016/4/26. 后续如果有新增字段，开发者只需要在此类中加上即可
  */
-public class Charge extends Paymax {
+public class Charge extends Paymax implements PaymaxFailureMessage {
     //支付订单id，系统内唯一，以“ch_”开头，后跟24位随机数
     private String id;
     //商户订单号，在商户系统内唯一，8-20位数字或字母，不允许特殊字符

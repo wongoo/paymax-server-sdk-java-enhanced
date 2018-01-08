@@ -8,7 +8,7 @@ import com.paymax.exception.PaymaxException;
 /**
  * Created by wxw on 2016/12/29.
  */
-public class PayUpload extends Paymax {
+public class PayUpload extends Paymax implements PaymaxFailureMessage {
     /**
      * 批次号 商户上传的批次号
      */

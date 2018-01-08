@@ -7,7 +7,7 @@ import com.paymax.exception.PaymaxException;
 /**
  * Created by wxw on 2016/12/28.
  */
-public class PayFile extends PaymaxBase {
+public class PayFile extends PaymaxBase implements PaymaxFailureMessage {
     private String fileName;
     private byte[] fileData;
     /**

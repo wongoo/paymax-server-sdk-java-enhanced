@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * 实时交易响应对象
  * Created by wxw on 2017/3/15.
  */
-public class ChargeRealTimeResponse extends PaymaxBase {
+public class ChargeRealTimeResponse extends PaymaxBase implements PaymaxFailureMessage {
     /**
      * 渠道订单号
      */

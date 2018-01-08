@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * Created by wxw on 2016/12/29.
  */
-public class PayInfo extends Paymax {
+public class PayInfo extends Paymax implements PaymaxFailureMessage {
     /**
      * 批次号 商户上传批次号
      */
